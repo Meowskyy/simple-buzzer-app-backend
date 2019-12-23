@@ -15,7 +15,7 @@ var players = [];
 
 io.on("connection", socket => {
   console.log("New client connected: " + socket.id);
-  players.push({id: socket.id, name: "None" });
+  players.push({id: socket.id, name: "None", state: "None" });
 
   socket.emit('players', players);
 
@@ -33,6 +33,15 @@ io.on("connection", socket => {
 
   socket.on('player-love', player => {
     console.log(`${player.name} loves it!`);
+
+    for (var i = 0; i < players.length; i++) {
+        if (player.id === players[i].id) {
+            console.log("Found player");
+            players[i] = player;
+            break;
+        }
+    }
+
     socket.broadcast.emit('player-love', player);
   })
   
