@@ -13,7 +13,7 @@ const io = socketIo(server);
 
 var players = [];
 
-function updatePlayerState(player ) {
+function updatePlayerState(player) {
     console.log("Update state");
 
     for (var i = 0; i < players.length; i++) {
@@ -27,7 +27,7 @@ function updatePlayerState(player ) {
 
 io.on("connection", socket => {
   console.log("New client connected: " + socket.id);
-  players.push({id: socket.id, name: "None", state: "None" });
+  players.push({ id: socket.id, name: "None", state: "None" });
 
   socket.emit('players', players);
 
@@ -38,7 +38,7 @@ io.on("connection", socket => {
 
     updatePlayerState(player);
 
-    socket.broadcast.emit ('player-rename', player);
+    io.emit ('player-rename', player);
   });
 
   socket.on('player-hate', player => {
